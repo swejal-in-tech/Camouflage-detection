@@ -5,7 +5,7 @@ import numpy as np
 import cv2
 from PIL import Image
 
-model = tf.keras.models.load_model("unet_camouflage.h5")
+model = tf.keras.models.load_model("unet_camouflage.h5", compile=False)
 
 st.title("Camouflage Animal Detection System")
 

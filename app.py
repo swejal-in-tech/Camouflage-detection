@@ -1,11 +1,11 @@
-
 import streamlit as st
 import tensorflow as tf
 import numpy as np
-import cv2
 from PIL import Image
+import os
 
-model = tf.keras.models.load_model("unet_camouflage.h5", compile=False)
+model_path = os.path.join(os.path.dirname(__file__), "unet_camouflage.h5")
+model = tf.keras.models.load_model(model_path, compile=False)
 
 st.title("Camouflage Animal Detection System")
 
@@ -15,14 +15,12 @@ if uploaded_file:
     image = Image.open(uploaded_file)
     st.image(image)
 
-    img = np.array(image)
-    img = cv2.resize(img, (256,256))
+    img = np.array(image.resize((256, 256)))
     img = img / 255.0
-
     img = np.expand_dims(img, axis=0)
 
     prediction = model.predict(img)[0]
-    mask = prediction[:,:,0]
+    mask = prediction[:, :, 0]
 
     st.image(mask)
 
